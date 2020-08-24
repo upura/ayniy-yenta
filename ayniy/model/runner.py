@@ -8,7 +8,7 @@ import seaborn as sns
 from mlflow import log_artifact, log_metric, log_param
 from sklearn.metrics import (average_precision_score, log_loss,
                              mean_absolute_error, mean_squared_error,
-                             roc_auc_score)
+                             roc_auc_score, accuracy_score)
 
 from ayniy.model import (ModelCatClassifier, ModelCatRegressor, ModelFocalLGBM,
                          ModelLGBM, ModelOptunaLGBM, ModelRIDGE, ModelXGB)
@@ -118,6 +118,7 @@ class Runner:
 
         if self.evaluation_metric == "log_loss":
             score = log_loss(y_val, pred_val, eps=1e-15, normalize=True)
+            print('fold ACC: ', accuracy_score(y_val, np.argmax(pred_val, axis=1)))
         elif self.evaluation_metric == "mean_absolute_error":
             score = mean_absolute_error(y_val, pred_val)
         elif self.evaluation_metric == "rmse":
@@ -180,6 +181,7 @@ class Runner:
 
         if self.evaluation_metric == "log_loss":
             cv_score = log_loss(self.y_train, preds, eps=1e-15, normalize=True)
+            print('Local ACC: ', accuracy_score(self.y_train, np.argmax(preds, axis=1)))
         elif self.evaluation_metric == "mean_absolute_error":
             cv_score = mean_absolute_error(self.y_train, preds)
         elif self.evaluation_metric == "rmse":
@@ -303,10 +305,7 @@ class Runner:
     def submission(self) -> None:
         pred = Data.load(f"../output/pred/{self.run_name}-test.pkl")
         sub = pd.read_csv(self.sample_submission)
-        if self.advanced and "predict_exp" in self.advanced:
-            sub[self.cols_definition["target_col"]] = np.exp(pred)
-        else:
-            sub[self.cols_definition["target_col"]] = pred
+        sub[self.cols_definition["target_col"]] = np.argmax(pred, axis=1)
         sub.to_csv(f"../output/submissions/submission_{self.run_name}.csv", index=False)
 
     def reset_mlflow(self) -> None:
