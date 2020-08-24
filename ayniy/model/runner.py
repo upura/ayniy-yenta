@@ -27,6 +27,21 @@ models_map = {
 }
 
 
+def convert(v):
+    th_0 = 0.6
+    th_1 = 2.8
+    th_2 = 2.9
+
+    if v < th_0:
+        return 0
+    elif th_0 <= v < th_1:
+        return 1
+    elif th_1 <= v < th_2:
+        return 2
+    else:
+        return 3
+
+
 class Runner:
     def __init__(self, configs: Dict, cv) -> None:  # type: ignore
         self.exp_name = configs["exp_name"]
@@ -305,7 +320,13 @@ class Runner:
     def submission(self) -> None:
         pred = Data.load(f"../output/pred/{self.run_name}-test.pkl")
         sub = pd.read_csv(self.sample_submission)
-        sub[self.cols_definition["target_col"]] = np.argmax(pred, axis=1)
+        if self.evaluation_metric == "log_loss":
+            sub[self.cols_definition["target_col"]] = np.argmax(pred, axis=1)
+        else:
+            oof = Data.load(f"../output/pred/{self.run_name}-train.pkl")
+            oof = np.array([convert(v) for v in oof])
+            pred = np.array([convert(v) for v in pred])
+            sub[self.cols_definition["target_col"]] = pred
         sub[self.cols_definition["target_col"]] = sub[self.cols_definition["target_col"]].astype(
             float
         )

@@ -1,0 +1,60 @@
+description: LightGBM
+exp_name: 'yenta'
+run_name: 'run002'
+fe_name: 'fe001'
+data:
+  sample_submission: '../input/data_v2/sample_submission.csv'
+cols_definition:
+  categorical_col: [
+    "purpose_id_1_userA",
+    "purpose_id_2_userA",
+    "purpose_id_3_userA",
+    "purpose_id_4_userA",
+    "purpose_id_5_userA",
+    "purpose_id_6_userA",
+    "purpose_id_7_userA",
+    "purpose_id_8_userA",
+    "purpose_id_9_userA",
+    "purpose_id_10_userA",
+    "purpose_id_11_userA",
+    "purpose_id_12_userA",
+    "purpose_id_13_userA",
+    "purpose_id_14_userA",
+    "purpose_id_15_userA",
+    "purpose_id_1_userB",
+    "purpose_id_2_userB",
+    "purpose_id_3_userB",
+    "purpose_id_5_userB",
+    "purpose_id_6_userB",
+    "purpose_id_7_userB",
+    "purpose_id_8_userB",
+    "purpose_id_9_userB",
+    "purpose_id_10_userB",
+    "purpose_id_11_userB",
+    "purpose_id_12_userB",
+    "purpose_id_13_userB",
+    "purpose_id_14_userB",
+    "purpose_id_15_userB",
+  ]
+  target_col: "score"
+model_name: 'ModelLGBM'
+params: {
+  'objective': 'regression',
+  'metric': 'rmse',
+  'num_leaves': 12,
+  'max_depth': 4,
+  "feature_fraction": 0.8,
+  'subsample_freq': 1,
+  "bagging_fraction": 0.7,
+  'min_data_in_leaf': 10,
+  'learning_rate': 0.8,
+  "boosting": "gbdt",
+  "lambda_l1": 0.4,
+  "lambda_l2": 0.4,
+  "num_threads": 16,
+  "verbosity": -1,
+  "random_state": 42,
+  "num_boost_round": 1000,
+  "early_stopping_rounds": 100
+}
+evaluation_metric: 'rmse'
