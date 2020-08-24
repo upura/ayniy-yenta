@@ -118,7 +118,7 @@ class Runner:
 
         if self.evaluation_metric == "log_loss":
             score = log_loss(y_val, pred_val, eps=1e-15, normalize=True)
-            logger.info("fold ACC: ", accuracy_score(y_val, np.argmax(pred_val, axis=1)))
+            logger.info(f"fold ACC: {accuracy_score(y_val, np.argmax(pred_val, axis=1))}")
         elif self.evaluation_metric == "mean_absolute_error":
             score = mean_absolute_error(y_val, pred_val)
         elif self.evaluation_metric == "rmse":
@@ -181,7 +181,7 @@ class Runner:
 
         if self.evaluation_metric == "log_loss":
             cv_score = log_loss(self.y_train, preds, eps=1e-15, normalize=True)
-            logger.info("Local ACC: ", accuracy_score(self.y_train, np.argmax(preds, axis=1)))
+            logger.info(f"Local ACC: {accuracy_score(self.y_train, np.argmax(preds, axis=1))}")
         elif self.evaluation_metric == "mean_absolute_error":
             cv_score = mean_absolute_error(self.y_train, preds)
         elif self.evaluation_metric == "rmse":
