@@ -75,7 +75,7 @@ def add_user_vecs(dataframe: pd.DataFrame) -> pd.DataFrame:
 
 
 INPUT_DIR = "../input/data_v2/"
-IS_TRAIN = True
+IS_TRAIN = False
 
 if __name__ == "__main__":
 
@@ -84,22 +84,22 @@ if __name__ == "__main__":
         train = split_user_id(train)
         train = add_user_ages(train)
         train = add_user_purposes(train)
-        # train = add_user_vecs(train)
+        train = add_user_vecs(train)
         Data.dump(
             train.drop(
                 ["from-to", "score", "userA", "userB", "user_id_userA", "user_id_userB"], axis=1
             ),
-            "../input/X_train_fe000.pkl",
+            "../input/X_train_fe001.pkl",
         )
-        Data.dump(train["score"], "../input/y_train_fe000.pkl")
+        Data.dump(train["score"], "../input/y_train_fe001.pkl")
 
     else:
         test = pd.read_csv(INPUT_DIR + "test.csv")
         test = split_user_id(test)
         test = add_user_ages(test)
         test = add_user_purposes(test)
-        # test = add_user_vecs(test)
+        test = add_user_vecs(test)
         Data.dump(
             test.drop(["from-to", "userA", "userB", "user_id_userA", "user_id_userB"], axis=1),
-            "../input/X_test_fe000.pkl",
+            "../input/X_test_fe001.pkl",
         )
