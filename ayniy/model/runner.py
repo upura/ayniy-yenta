@@ -306,6 +306,7 @@ class Runner:
         pred = Data.load(f"../output/pred/{self.run_name}-test.pkl")
         sub = pd.read_csv(self.sample_submission)
         sub[self.cols_definition["target_col"]] = np.argmax(pred, axis=1)
+        sub[self.cols_definition["target_col"]] = sub[self.cols_definition["target_col"]].astype(float)
         sub.to_csv(f"../output/submissions/submission_{self.run_name}.csv", index=False)
 
     def reset_mlflow(self) -> None:
