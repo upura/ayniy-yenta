@@ -1,7 +1,7 @@
 description: LightGBM
 exp_name: 'yenta'
-run_name: 'run000'
-fe_name: 'fe000'
+run_name: 'run001'
+fe_name: 'fe001'
 data:
   sample_submission: '../input/data_v2/sample_submission.csv'
 cols_definition:
