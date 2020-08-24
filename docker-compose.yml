@@ -3,7 +3,7 @@ services:
   test:
     build: .
     volumes:
-      - $PWD:/working
+      - ./:/working
     container_name: yenta
     working_dir: /working
     ports:
