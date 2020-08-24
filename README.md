@@ -12,6 +12,9 @@ https://prtimes.jp/main/html/rd/p/000000031.000021544.html
 6. [SSH Settings for GitHub](https://qiita.com/shizuma/items/2b2f873a0034839e47ce)
 
 ```bash
+sudo apt install git
+```
+```bash
 git config --global user.email "upura0@gmail.com"
 git config --global user.name "upura"
 ```
