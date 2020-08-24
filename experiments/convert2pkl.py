@@ -2,7 +2,6 @@ import pandas as pd
 
 from ayniy.utils import Data
 
-
 INPUT_DIR = "../input/data_v2/"
 
 

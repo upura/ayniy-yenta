@@ -1,7 +1,7 @@
 import pandas as pd
 
-
 INPUT_DIR = "../input/data_v2/"
+
 
 if __name__ == "__main__":
     train = pd.read_csv(INPUT_DIR + "train.csv")
