@@ -47,11 +47,7 @@ def add_user_purposes(dataframe: pd.DataFrame) -> pd.DataFrame:
     )
     _dataframe = dataframe.copy()
     _dataframe = pd.merge(
-        _dataframe,
-        df_user_purposes,
-        left_on="userA",
-        right_on="user_id",
-        how="left"
+        _dataframe, df_user_purposes, left_on="userA", right_on="user_id", how="left"
     )
     _dataframe = pd.merge(
         _dataframe,
@@ -91,11 +87,7 @@ def add_user_strengths(dataframe: pd.DataFrame) -> pd.DataFrame:
     df_user_strengths["user_id"] = df_user_strengths["user_id"].astype("str")
     _dataframe = dataframe.copy()
     _dataframe = pd.merge(
-        _dataframe,
-        df_user_strengths,
-        left_on="userA",
-        right_on="user_id",
-        how="left"
+        _dataframe, df_user_strengths, left_on="userA", right_on="user_id", how="left"
     )
     _dataframe = pd.merge(
         _dataframe,
@@ -114,25 +106,19 @@ def add_user_works(dataframe: pd.DataFrame) -> pd.DataFrame:
     df_user_works = pd.read_csv(INPUT_DIR + "user_works.csv")
     df_user_works["user_id"] = df_user_works["user_id"].astype("str")
 
-    table = df_user_works.groupby('user_id').agg({'max', 'count'}).reset_index()
+    table = df_user_works.groupby("user_id").agg({"max", "count"}).reset_index()
     table.columns = [
-        'user_id',
-        'company_id_count',
-        'company_id_max',
-        'industry_id_count',
-        'industry_id_max',
-        'over_1000_employees_count',
-        'over_1000_employees_max'
+        "user_id",
+        "company_id_count",
+        "company_id_max",
+        "industry_id_count",
+        "industry_id_max",
+        "over_1000_employees_count",
+        "over_1000_employees_max",
     ]
 
     _dataframe = dataframe.copy()
-    _dataframe = pd.merge(
-        _dataframe,
-        table,
-        left_on="userA",
-        right_on="user_id",
-        how="left"
-    )
+    _dataframe = pd.merge(_dataframe, table, left_on="userA", right_on="user_id", how="left")
     _dataframe = pd.merge(
         _dataframe,
         table,
@@ -148,24 +134,15 @@ def add_user_works(dataframe: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_user_skills(dataframe: pd.DataFrame) -> pd.DataFrame:
-    df_user_skills = pd.read_csv(INPUT_DIR + "user_skills.csv",
-                                 dtype={"user_id": str, "skill_id": int})
+    df_user_skills = pd.read_csv(
+        INPUT_DIR + "user_skills.csv", dtype={"user_id": str, "skill_id": int}
+    )
 
-    table = df_user_skills.groupby('user_id').agg({'max', 'count'}).reset_index()
-    table.columns = [
-        'user_id',
-        'skill_id_count',
-        'skill_id_max'
-    ]
+    table = df_user_skills.groupby("user_id").agg({"max", "count"}).reset_index()
+    table.columns = ["user_id", "skill_id_count", "skill_id_max"]
 
     _dataframe = dataframe.copy()
-    _dataframe = pd.merge(
-        _dataframe,
-        table,
-        left_on="userA",
-        right_on="user_id",
-        how="left"
-    )
+    _dataframe = pd.merge(_dataframe, table, left_on="userA", right_on="user_id", how="left")
     _dataframe = pd.merge(
         _dataframe,
         table,
@@ -180,26 +157,22 @@ def add_user_skills(dataframe: pd.DataFrame) -> pd.DataFrame:
 
 
 def add_user_educations(dataframe: pd.DataFrame) -> pd.DataFrame:
-    df_user_educations = pd.read_csv(INPUT_DIR + "user_educations.csv",
-                                     dtype={"user_id": str, "school_id": int, "degree_id": float})
+    df_user_educations = pd.read_csv(
+        INPUT_DIR + "user_educations.csv",
+        dtype={"user_id": str, "school_id": int, "degree_id": float},
+    )
 
-    table = df_user_educations.groupby('user_id').agg({'max', 'count'}).reset_index()
+    table = df_user_educations.groupby("user_id").agg({"max", "count"}).reset_index()
     table.columns = [
-        'user_id',
-        'school_id_count',
-        'school_id_max',
-        'degree_id_count',
-        'degree_id_max'
+        "user_id",
+        "school_id_count",
+        "school_id_max",
+        "degree_id_count",
+        "degree_id_max",
     ]
 
     _dataframe = dataframe.copy()
-    _dataframe = pd.merge(
-        _dataframe,
-        table,
-        left_on="userA",
-        right_on="user_id",
-        how="left"
-    )
+    _dataframe = pd.merge(_dataframe, table, left_on="userA", right_on="user_id", how="left")
     _dataframe = pd.merge(
         _dataframe,
         table,
@@ -214,13 +187,7 @@ def add_user_educations(dataframe: pd.DataFrame) -> pd.DataFrame:
 
 
 INPUT_DIR = "../input/data_v2/"
-DELETE_COLS = [
-    "from-to",
-    "userA",
-    "userB",
-    "user_id_userA",
-    "user_id_userB"
-]
+DELETE_COLS = ["from-to", "userA", "userB", "user_id_userA", "user_id_userB"]
 
 if __name__ == "__main__":
 
@@ -233,11 +200,10 @@ if __name__ == "__main__":
     train = add_user_works(train)
     train = add_user_skills(train)
     train = add_user_educations(train)
-    pd.Series(train.columns).to_csv('../input/col_names.csv', index=False)
+    pd.Series(train.columns).to_csv("../input/col_names.csv", index=False)
 
     Data.dump(
-        train.drop(DELETE_COLS + ["score"], axis=1),
-        "../input/X_train_fe002.pkl",
+        train.drop(DELETE_COLS + ["score"], axis=1), "../input/X_train_fe002.pkl",
     )
     Data.dump(train["score"], "../input/y_train_fe002.pkl")
     del train
@@ -254,6 +220,5 @@ if __name__ == "__main__":
     test = add_user_educations(test)
 
     Data.dump(
-        test.drop(DELETE_COLS, axis=1),
-        "../input/X_test_fe002.pkl",
+        test.drop(DELETE_COLS, axis=1), "../input/X_test_fe002.pkl",
     )
